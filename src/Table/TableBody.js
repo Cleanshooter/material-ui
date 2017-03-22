@@ -299,15 +299,7 @@ class TableBody extends Component {
       window.getSelection().removeAllRanges();
       this.processRowSelection(event, rowNumber);
     }
-  };
-
-  setRowSelectionState = (rowNumber, state) => {
-    if (this.props.selectable) {
-      // Prevent text selection while selecting rows.
-      window.getSelection().removeAllRanges();
-      this.processRowSelection({}, rowNumber);
-    }
-  };
+  }
 
   processRowSelection(event, rowNumber) {
     let selectedRows = this.state.selectedRows;
