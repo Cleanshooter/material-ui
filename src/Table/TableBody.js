@@ -90,9 +90,15 @@ class TableBody extends Component {
      */
     selectable: PropTypes.bool,
     /**
-     * If true, table rows will be highlighted when
-     * the cursor is hovering over the row. The default
-     * value is false.
+     * @ignore
+     * If true, table rows can be selected. If multiple
+     * row selection is desired, enable multiSelectable.
+     * The default value is true.
+     */
+    setSelectedRows: PropTypes.array,
+    /**
+     * Controls which rows are currently selected programatically
+     * at any point in the appliation cycle.
      */
     showRowHover: PropTypes.bool,
     /**
@@ -138,6 +144,21 @@ class TableBody extends Component {
         this.setState({
           selectedRows: this.calculatePreselectedRows(nextProps),
         });
+      }
+    }
+    if (this.props.setSelectedRows !== nextProps.setSelectedRows) {
+      // Check to make sure it's somewhat valid
+      if (Array.isArray(nextProps.setSelectedRows)) {
+        // Check if in bounds
+        let inBounds = true;
+        nextProps.setSelectedRows.forEach((index) => {
+          if (index > this.props.children.length) inBounds = false;
+        });
+        if (inBounds) {
+          this.setState({
+            selectedRows: nextProps.setSelectedRows,
+          });
+        }
       }
     }
   }
@@ -277,6 +298,14 @@ class TableBody extends Component {
       // Prevent text selection while selecting rows.
       window.getSelection().removeAllRanges();
       this.processRowSelection(event, rowNumber);
+    }
+  };
+
+  setRowSelectionState = (rowNumber, state) => {
+    if (this.props.selectable) {
+      // Prevent text selection while selecting rows.
+      window.getSelection().removeAllRanges();
+      this.processRowSelection({}, rowNumber);
     }
   };
 
