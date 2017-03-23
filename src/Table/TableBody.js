@@ -95,11 +95,6 @@ class TableBody extends Component {
      * row selection is desired, enable multiSelectable.
      * The default value is true.
      */
-    setSelectedRows: PropTypes.array,
-    /**
-     * Controls which rows are currently selected programatically
-     * at any point in the appliation cycle.
-     */
     showRowHover: PropTypes.bool,
     /**
      * If true, every other table row starting
