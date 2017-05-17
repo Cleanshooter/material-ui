@@ -95,6 +95,11 @@ class TableBody extends Component {
      * the cursor is hovering over the row. The default
      * value is false.
      */
+    setSelectedRows: PropTypes.array,
+    /**
+     * Controls which rows are currently selected programatically
+     * at any point in the appliation cycle.
+     */
     showRowHover: PropTypes.bool,
     /**
      * If true, every other table row starting
@@ -151,9 +156,21 @@ class TableBody extends Component {
       }
     }
 
-    this.setState({
-      selectedRows: this.getSelectedRows(nextProps),
-    });
+    if (this.props.setSelectedRows !== nextProps.setSelectedRows) {
+      // Check to make sure it's somewhat valid
+      if (Array.isArray(nextProps.setSelectedRows)) {
+        // Check if in bounds
+        let inBounds = true;
+        nextProps.setSelectedRows.forEach((index) => {
+          if (index > this.props.children.length) inBounds = false;
+        });
+        if (inBounds) {
+          this.setState({
+            selectedRows: nextProps.setSelectedRows,
+          });
+        }
+      }
+    }
   }
 
   isControlled = false
