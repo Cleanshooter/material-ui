@@ -1,4 +1,5 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import shallowEqual from 'recompose/shallowEqual';
 import transitions from '../styles/transitions';
@@ -348,7 +349,9 @@ class TextField extends Component {
   };
 
   handleInputChange = (event) => {
-    this.setState({hasValue: isValid(event.target.value)});
+    if (!this.props.hasOwnProperty('value')) {
+      this.setState({hasValue: isValid(event.target.value)});
+    }
     if (this.props.onChange) {
       this.props.onChange(event, event.target.value);
     }
